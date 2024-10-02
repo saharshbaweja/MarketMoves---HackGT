@@ -1,0 +1,8 @@
+flask==3.0.3
+requests==2.32.3
+nltk==3.9.1
+numpy==2.1.1
+newspaper3k==0.2.8
+lxml_html_clean==0.2.2
+transformers==4.45.1
+yfinance==0.2.43

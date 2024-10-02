@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Trading Optimization</title>
+    <style>
+        /* Global Styles */
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa; /* Light blue background */
+        }
+
+        /* Main Container */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap; /* Allow boxes to wrap */
+        }
+
+        /* Left Side - Introduction Section */
+        .intro-section {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex-basis: 40%; /* Takes up a portion of the space */
+            position: relative;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 900;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* Crayon-like font */
+        }
+
+        .intro-section p {
+            font-size: 22px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        /* Right Side - Analysis Section */
+        .analysis-section {
+            flex: 1;
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex-basis: 60%; /* Takes up more space */
+            position: relative;
+        }
+
+        .analysis-section h2 {
+            font-size: 36px;
+            color: #2c3e50;
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .analysis-form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .analysis-form input[type="text"] {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            font-size: 24px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+
+        .analysis-form button {
+            padding: 20px 30px;
+            font-size: 22px;
+            background-color: navy; /* Navy blue button */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .analysis-form button:hover {
+            background-color: #003366; /* Darker navy on hover */
+        }
+
+        /* Error Message */
+        .error {
+            font-size: 24px;
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Results Container */
+        .results-container {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            font-size: 22px;
+            margin-top: 20px;
+            display: block; /* Ensure it behaves as a block element */
+        }
+
+        .results-container .rating {
+            font-weight: bold;
+            color: green;
+        }
+
+        .results-container .action {
+            font-weight: bold;
+            color: blue;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 16px;
+        }
+
+        /* Colorful Info Boxes with Gradient */
+        .info-box {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+            color: white;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, #e0f7fa, #003366); /* Smooth gradient from light blue to dark navy */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .info-box h3 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .info-box p {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .info-box:nth-child(1) {
+            background: linear-gradient(135deg, #e0f7fa, #80d8ff); /* Lightest blue box */
+        }
+
+        .info-box:nth-child(2) {
+            background: linear-gradient(135deg, #80d8ff, #40c4ff); /* Slightly darker blue */
+        }
+
+        .info-box:nth-child(3) {
+            background: linear-gradient(135deg, #40c4ff, #0091ea); /* Medium blue */
+        }
+
+        .info-box:nth-child(4) {
+            background: linear-gradient(135deg, #0091ea, #007bb5); /* Darker blue */
+        }
+
+        .info-box:nth-child(5) {
+            background: linear-gradient(135deg, #007bb5, #003366); /* Darkest navy blue box */
+        }
+
+        .info-box:hover {
+            transform: scale(1.05); /* Subtle zoom on hover for interactivity */
+        }
+
+        .summaries-container {
+            padding: 20px;
+            background-color: #f1f1f1; /* Light grey background for better contrast */
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 10px; /* Spacing from the title */
+        }
+
+        .summary-item {
+            font-size: 20px;
+            margin: 10px 0; /* Spacing between items */
+            padding: 10px;
+            border-left: 4px solid #007bff; /* Blue left border for emphasis */
+            background-color: #ffffff; /* White background for each item */
+            border-radius: 5px;
+            transition: transform 0.2s; /* Animation for hover effect */
+        }
+
+        .summary-item:hover {
+            transform: scale(1.02); /* Slight zoom on hover */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>MARKETMOVES</h1>
+    </header>
+
+    <main>
+        <section class="analysis-section">
+            <h2>Stock Sentiment Analyzer</h2>
+            <form method="POST" class="analysis-form">
+                <input type="text" name="ticker" placeholder="Enter Stock Ticker" required>
+                <button type="submit">Analyze</button>
+            </form>
+
+            <div class="loader" id="loader" style="display: none;">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            {% if error_message %}
+            <p class="error">{{ error_message }}</p>
+            {% endif %}
+
+            {% if results %}
+            <div class="results-container">
+                <h3>The overall sentiment analysis rating for {{ checked_ticker }} is: <span class="rating {{ results[1] }}">{{ results[0] }}</span></h3>
+                <h4>The action you should take is: <span class="action">{{ results[1] }}</span></h4>
+            </div>
+            {% endif %}
+        </section>
+
+        <section class="intro-section">
+            <h2>Welcome to Market Moves</h2>
+            <p> Gain insights into stock performance based on sentiment analysis, technical analysis, fundamental analysis, and historical trends. <span style="color: red;">(Not financial advice, tail at your own risk.)</span>
+            </p>
+            <div class="info-box">
+                <h3>Our Vision</h3>
+                <p>To empower investors with the tools to make informed decisions. This serves as a foundational model for our tool. We plan to integrate technical analysis, fundamental analysis, and historical data trends to our tool in the near future. </p>
+            </div>
+            <div class="info-box">
+                <h3>Diversity & Inclusion</h3>
+                <p>Our team brings diverse perspectives of news articles from around the world in our sentiment analysis to provide a well-rounded analysis.</p>
+            </div>
+            <div class="info-box">
+                <h3>Technology Stack</h3>
+                <p>Built with Python and Flask for the backend, and HTML & CSS for the frontend.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Stock Sentiment Analyzer. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.analysis-form');
+            const loader = document.getElementById('loader');
+    
+            form.addEventListener('submit', function() {
+                // Show the loader
+                loader.style.display = 'flex'; // Ensure 'flex' is set to center it
+            });
+        });
+    </script>
+
+</body>
+
+</html>
